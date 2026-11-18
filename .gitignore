@@ -1,0 +1,11 @@
+# signing keys must never be committed
+android/keys/
+*.pem
+*.jks
+*.keystore
+*signing-key*.zip
+# build output
+android/out/
+*.apk
+node_modules/
+__pycache__/

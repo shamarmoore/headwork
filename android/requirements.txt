@@ -1,0 +1,4 @@
+lxml
+pyaxml
+cryptography
+androguard

@@ -1,0 +1,6 @@
+{
+  "name": "headwork-android-signing",
+  "private": true,
+  "type": "module",
+  "dependencies": { "apk_sign_ts": "1.0.1" }
+}
