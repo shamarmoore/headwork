@@ -1,4 +1,4 @@
-"""Builds an unsigned Headwork APK: binary manifest + hand-built classes.dex + app/index.html as an asset.
+"""Builds an unsigned Headwork APK: manifest + classes.dex + the app and offline source exhibits.
 
     python3 android/build_apk.py           -> android/out/unsigned.apk
     node android/sign.mjs                  -> android/out/Headwork.apk (needs android/keys/key.pem + cert.pem)
@@ -20,5 +20,10 @@ apk = os.path.join(OUT, 'unsigned.apk')
 with zipfile.ZipFile(apk, 'w') as z:
     z.write(manifest, 'AndroidManifest.xml', compress_type=zipfile.ZIP_DEFLATED)
     z.write(dex, 'classes.dex', compress_type=zipfile.ZIP_DEFLATED)
-    z.write(os.path.join(ROOT, 'app', 'index.html'), 'assets/index.html', compress_type=zipfile.ZIP_DEFLATED)
+    app_dir = os.path.join(ROOT, 'app')
+    for directory, _, filenames in os.walk(app_dir):
+        for filename in sorted(filenames):
+            path = os.path.join(directory, filename)
+            asset = 'assets/' + os.path.relpath(path, app_dir).replace(os.sep, '/')
+            z.write(path, asset, compress_type=zipfile.ZIP_DEFLATED)
 print('unsigned apk ->', apk)
